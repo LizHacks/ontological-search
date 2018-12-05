@@ -1,0 +1,17 @@
+{
+  "external_url": "http://localhost:31337",
+  "currentEnvironment": "dev",
+  "base_path": "/ontology_service",
+  "iris": {
+    "uri": "amqp://guest:guest@localhost",
+    "namespace": "ontology_service"
+  },
+  "database": {
+    "connectionString": "postgres://repositive:repositive@postgres:5432/ontology_service",
+    "max": "10"
+  },
+  "port": 3000,
+  "logger": {
+    "level": "debug"
+  }
+}
