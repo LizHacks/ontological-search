@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "no-null-keyword": false,
+    "quotemark": [ "error", "single" ],
+    "ordered-imports": [ "off" ],
+    "object-literal-sort-keys": [ "off" ],
+    "no-console": [ "off" ],
+    "variable-name": [ "error", "allow-snake-case" ],
+    "only-arrow-functions": [ "off" ],
+    "interface-name": [ "error", "interface-name" ],
+    "no-empty-interface": [ "off" ]
+  }
+}

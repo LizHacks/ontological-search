@@ -1,0 +1,18 @@
+{
+  "external_url": "EXTERNAL_URL",
+  "currentEnvironment": "CURRENT_ENVIRONMENT",
+  "port": "HTTP_PORT",
+  "base_path": "BASE_PATH",
+  "logger": {
+    "level": "LOG_LEVEL"
+  },
+  "iris": {
+    "uri": "RABBIT_URI",
+    "exchange": "RABBIT_EXCHANGE",
+    "namespace": "IRIS_NAMESPACE"
+  },
+  "database": {
+    "connectionString": "DB_URI",
+    "max": "DB_MAX_CONNECTIONS"
+  }
+}

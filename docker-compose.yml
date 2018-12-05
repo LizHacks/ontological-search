@@ -1,0 +1,27 @@
+version: '2'
+services:
+  ontology_service:
+    command: /bin/sh -c "npm i && npm run make && npm run startDev"
+    image: node:10
+    working_dir: /opt
+    volumes:
+      - .:/opt
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbit
+      # NODE_ENV: docker
+      LOG_LEVEL: debug
+    networks:
+      - rabbit
+      - proxy
+      - postgres
+
+networks:
+  proxy:
+    external:
+      name: services_proxy
+  rabbit:
+    external:
+      name: infra_rabbit
+  postgres:
+    external:
+      name: infra_postgres
