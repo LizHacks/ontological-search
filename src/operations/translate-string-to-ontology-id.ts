@@ -27,7 +27,7 @@ export default async function handler(
 
   return _fetch('http://localhost:8529/', {
     method: 'post',
-    body: query,
+    body: JSON.stringify(query),
     headers: { 'Content-Type': 'application/json' },
   })
     .then((res: any) => res.json())
