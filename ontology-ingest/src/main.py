@@ -14,7 +14,7 @@ ONTOLOGY_RELATIONSHIPS = "onto_tree"
 def main():
     arango_connection = Connection()
 
-    #  arango_connection.createDatabase(name = DB_NAME)
+    arango_connection.createDatabase(name = DB_NAME)
     arango_database = arango_connection[DB_NAME]
     try:
         arango_database.createCollection(name = ONTOLOGY_COLLECTION)

@@ -10,7 +10,6 @@ export default async function handler(
 
   const { logger } = state;
   const { text } = args;
-
   const search_term = text.toLowerCase();
 
   logger.debug('Sending request to graph database');
@@ -25,15 +24,14 @@ export default async function handler(
     RETURN related_doc
     `;
 
-  return _fetch('http://localhost:8529/', {
+  return _fetch('http://arango:8529/_db/ontologies_1/_api/cursor', {
     method: 'post',
-    body: JSON.stringify(query),
+    body: JSON.stringify({ query, count: true }),
     headers: { 'Content-Type': 'application/json' },
   })
     .then((res: any) => res.json())
-    // .then((json) => console.log(json))
+    .then((res: any) => res.result.map((record: any) => record.id))
     .then((response: any) => {
-
       logger.debug(response);
       return ok(response);
     });
