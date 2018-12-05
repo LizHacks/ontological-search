@@ -1,5 +1,8 @@
+http://localhost:9200
+--
 
 
+--
 GET /
 
 --
@@ -134,7 +137,6 @@ PUT /fedex
     }
   }
 }
-
 
 POST /fedex/record/0001
 {
@@ -318,7 +320,6 @@ POST /fedex/record/0007
   }
 }
 
-
 POST /fedex/record/0008
 {
   "title": "Record #8 with Hyperlipidemia, WES & F",
@@ -344,4 +345,5 @@ POST /fedex/record/0008
     }]
   }
 }
+
 
