@@ -66,9 +66,9 @@ def make_graph_relation(fr, to, ve):
 def make_term_entry(term):
     return {
         "id": term.id,
-        "title": term.name,
+        "title": str(term.name).lower(),
         "desc": term.desc,
-        "synonyms": list(map(lambda syn: syn.desc, list(term.synonyms))),
+        "synonyms": list(map(lambda syn: str(syn.desc).lower(), list(term.synonyms))),
         "other": term.other,
     }
 
