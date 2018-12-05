@@ -346,4 +346,27 @@ POST /fedex/record/0008
   }
 }
 
+POST /fedex/record/0009
+{
+  "title": "Record #9 with Alzheimer disease, RNA-seq & M (no ontology annotation)",
+  "disease": {
+    "text":"Alzheimer disease"
+  },
+  "gender": {
+    "text":"M",
+    "rdf": [{
+      "id":"",
+      "namespace":""
+    }]
+  },
+  "assay": {
+    "text":"RNA-seq",
+    "rdf": [{
+      "id":"",
+      "namespace":""
+    }]
+  }
+}
+
+
 
