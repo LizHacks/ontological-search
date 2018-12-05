@@ -1,5 +1,8 @@
 # Ontology-ingest
 ---
+## Requirements
+- pronto (`pip3 install pronto`)
+- PyArango (`pip3 install pyarango`)
 To run:
 ```
   python3 -m venv .
