@@ -1,0 +1,218 @@
+//! ArangoDB Cheat-Sheet
+//! @date: 2018-03-28
+//! @author: mareq@balint.eu
+
+http://127.0.0.1:8529
+//Authorization: Basic cm9vdDoK
+//Authorization: bearer <jwt>
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MjQ2OTEzNjQsImlhdCI6MS41MjIwOTkzNjQ0NzkyN2UrNiwiaXNzIjoiYXJhbmdvZGIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJyb290In0=.gp_Erc5YjsHwrUON5TTVVnLaR_VoGiOV6EMB_HIoCAk=
+--
+
+--
+// login
+Authorization: bearer null
+
+POST /_db/_system/_open/auth
+{ "username": "root", "password": "" }
+
+--
+// get version
+GET /_db/_system/_api/version
+
+--
+// get current database
+GET /_api/database/current
+--
+// list databases
+GET /_api/database
+--
+// list databases accessible to current user
+GET /_api/database
+
+--
+// create document
+POST /_api/document/users?returnNew=true&waitForSync=true
+{
+  "_key": "7482",
+  "name": {
+    "first": "Michael",
+    "last": "Garibaldi",
+    "aliases": [ "Top Dog", "Uncle Mike" ]
+  },
+  "age": 38
+}
+--
+// replace document
+PUT /_api/document/users/7482?returnOld=true&returnNew=true&waitForSync=true
+{
+  "name": {
+    "first": "Mike",
+    "last": "Garibaldi",
+    "aliases": [ "Top Dog", "Uncle Mike" ]
+  },
+  "age": 41
+}
+--
+// update document (merge objects - default; arrays are NOT merged!)
+PATCH /_api/document/users/7482?mergeObjects=true&returnOld=true&returnNew=true&waitForSync=true
+{
+  "_key": "7482",
+  "name": {
+    "aliases": [ "My good and dear friend, Mr. Garibaldi!" ]
+  }
+}
+--
+// update document (do NOT merge objects)
+PATCH /_api/document/users/7482?mergeObjects=false&returnOld=true&returnNew=true&waitForSync=true
+{
+  "name": {
+    "first": "Michael"
+  }
+}
+--
+// delete document
+DELETE /_api/document/users/7482?returnOld=true&waitForSync=true
+--
+// get all documents
+PUT /_api/simple/all-keys
+{
+  //"type": "id",
+  //"type": "key",
+  //"type": "path",
+  "collection": "users"
+}
+--
+// get document by id
+//HEAD /_api/document/users/7482
+GET /_api/document/users/7482
+
+
+// INITIALISE DATABASE WITH SOME DATA
+--
+DELETE /_api/document/users/3797?returnOld=true&waitForSync=true
+--
+DELETE /_api/document/users/7002?returnOld=true&waitForSync=true
+--
+DELETE /_api/document/users/7482?returnOld=true&waitForSync=true
+--
+DELETE /_api/document/users/24084?returnOld=true&waitForSync=true
+--
+DELETE /_api/document/users/24088?returnOld=true&waitForSync=true
+--
+DELETE /_api/document/users/24090?returnOld=true&waitForSync=true
+--
+DELETE /_api/document/users/24092?returnOld=true&waitForSync=true
+--
+DELETE /_api/document/users
+[
+  { "_key": "3797" },
+  { "_key": "7002" },
+  { "_key": "7482" },
+  { "_key": "24084" },
+  { "_key": "24088" },
+  { "_key": "24090" },
+  { "_key": "24092" }
+]
+--
+DELETE /_api/document/users
+[
+  "3797",
+  "7002",
+  "7482",
+  "24084",
+  "24088",
+  "24090",
+  "24092"
+]
+--
+POST /_api/document/users?returnNew=true&waitForSync=true
+[
+  {
+    "_key": "3797",
+    "name": {
+      "first": "Londo",
+      "last": "Mollari",
+      "aliases": [ "Paso Leati" ]
+    },
+    "age": 58
+  },
+  {
+    "_key": "7002",
+    "name": {
+      "last": "G'Kar",
+      "aliases": [ "Sir G'Kar, The Red Knight" ]
+    },
+    "age": "fifty-eight"
+  },
+  {
+    "_key": "7482",
+    "name": {
+      "first": "Michael",
+      "last": "Garibaldi",
+      "aliases": [ "Top Dog", "Uncle Mike" ]
+    },
+    "age": 41
+  },
+  {
+    "_key": "24084",
+    "name": {
+      "first": "Susan",
+      "last": "Ivanova",
+      "aliases": [ "Susatchka", "Dushenka moya", "Ivanova the Strong" ]
+    },
+    "age": 32
+  },
+  {
+    "_key": "24088",
+    "name": {
+      "last": "Galen"
+    },
+    "age": 22
+  },
+  {
+    "_key": "24090",
+    "name": {
+      "first": "Marcus",
+      "last": "Cole",
+      "aliases": [ "Jim Fennerman" ]
+    },
+    "age": 33
+  },
+  {
+    "_key": "24092",
+    "name": {
+      "first": "Stephen",
+      "last": "Franklin",
+      "aliases": [ "Daniel Lane" ]
+    },
+    "age": 41
+  }
+]
+--
+// get all documents
+PUT /_api/simple/all-keys
+{
+  "type": "key",
+  "collection": "users"
+}
+--
+// query (all at once)
+POST /_api/cursor
+{
+  "query": "FOR user IN users FILTER user.age > 50 RETURN user",
+  "count": true
+}
+--
+// query (get_first)
+POST /_api/cursor
+{
+  "query": "FOR user IN users FILTER user.age < 50 LIMIT 4 RETURN user",
+  "count": true,
+  "batchSize": 1
+}
+--
+// query (get_next - available if `"hasMore": true` under `"id": "<ID>"`)
+PUT /_api/cursor/25127
+
+
+
