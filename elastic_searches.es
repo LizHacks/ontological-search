@@ -1,4 +1,7 @@
+http://localhost:9200
+--
 
+--
 POST /fedex/_search?q=*
 
 --
@@ -54,4 +57,3 @@ POST /fedex/_search
 }
 
 
-      
