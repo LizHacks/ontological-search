@@ -14,6 +14,7 @@ services:
       - rabbit
       - proxy
       - postgres
+      - arango
   redis:
     image: redis:5
     ports:
@@ -24,6 +25,8 @@ services:
       - "8529:8529"
     environment:
       - ARANGO_NO_AUTH=1
+    networks:
+      - arango
 
 
 networks:
@@ -36,3 +39,5 @@ networks:
   postgres:
     external:
       name: infra_postgres
+  arango:
+    
