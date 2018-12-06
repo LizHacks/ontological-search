@@ -1,7 +1,7 @@
 import { Logger } from 'pino';
 import * as R from 'ramda';
 import {
-  TranslateStringToOntologyIDCmd,
+  TranslateStringToOntologyIDCmd, TranslateStringToOntologyIDResponse,
 } from './definitions';
 import { Plugin, ServerRoute, Request, ResponseToolkit } from 'hapi';
 import { Status, Headers } from './status';
@@ -15,7 +15,9 @@ export type APIResponse<N extends number, P, H extends Headers> = [N, P, H];
 export type Operation<T> = (state: T, params: any) => Response<any, any>;
 
 export interface Operations<T> {
-  translateStringToOntologyID: (state: T, args: TranslateStringToOntologyIDCmd) => Response<any[], any>;
+  healthCheck: (state: T, args: any) => Response<any, any>;
+  // tslint:disable-next-line:max-line-length
+  translateStringToOntologyID: (state: T, args: TranslateStringToOntologyIDCmd) => Response<TranslateStringToOntologyIDResponse, any>;
 }
 
 const reply = R.curry((state: any, operation: Operation<any>, request: Request, responseToolkit: ResponseToolkit) => {
@@ -44,6 +46,11 @@ function genRoutes<T>(state: T, operations: Operations<T>): ServerRoute[] {
   return [
     {
       method: 'get',
+      path: `/ontology_service/health`,
+      handler: replyState(operations.healthCheck),
+    },
+    {
+      method: 'post',
       path: '/ontology_service/translate-string-to-ontology-id',
       handler: replyState(operations.translateStringToOntologyID),
     },

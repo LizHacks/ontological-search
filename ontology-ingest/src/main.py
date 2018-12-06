@@ -21,6 +21,7 @@ def main():
 
     _, onto_collection, relationships_collection = initialise_database(arango_connection)
 
+
     # Create documents
     if len(sys.argv) != 2:
         print("[error] You need to supply the name of the .owl file")

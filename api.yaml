@@ -1,0 +1,111 @@
+openapi: "3.0.1"
+info:
+  version: "1.0-draft"
+  title: Ontology Service
+  description: |
+    TODO
+
+servers:
+  - url: http://localhost:3000/{domain_path}
+    description: Local development server
+    variables:
+      domain_path:
+        default: ontology_service
+        description: The domain path
+  - url: https://{environment}.pdx.repositive.io/{domain_path}
+    description: Online Servers
+    variables:
+      environment:
+        default: api-dev
+        enum:
+          - api # Production server
+          - api-dev # Staging / Sandbox / Online development server
+      domain_path:
+        default: ontology_service
+        description: The domain path
+
+paths:
+  /translate-string-to-ontology-id:
+    post:
+      description: |
+        Translate a given string value to an array of ontology ID's
+      operationId: translateStringToOntologyID
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/TranslateStringToOntologyIDCmd"
+      responses:
+        200:
+          $ref: "#/components/responses/TranslateStringToOntologyIDResponse"
+        500:
+          $ref: "#/components/responses/UnexpectedError"
+
+components:
+  securitySchemes:
+    jwt-strict:
+      x-mode: strict
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      name: strict
+      in: header
+    jwt-optional:
+      x-mode: optional
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      name: optional
+      in: header
+
+  schemas:
+    UnexpectedError:
+      description:
+        The response is an [Action](http://schema.org/Action) that results in an [error](https://schema.org/error)
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          enum: [500]
+          default: 500
+          description: Machine readable error code
+        error:
+          type: string
+          enum: ['UNEXPECTED']
+          default: 'UNEXPECTED'
+        message:
+          type: string
+          description: Error code which maps to a user friendly message on the client
+      required:
+        - statusCode
+        - error
+
+    OntologyIDObject:
+      description: Object containing term IDs, parent IDs & child IDs
+      type: object
+      properties:
+        term_ids:
+          type: array
+          items:
+            type: string
+        parent_term_ids:
+          type: array
+          items:
+            type: string
+        child_term_ids:
+          type: array
+          items:
+            type: string
+
+  responses:
+    TranslateStringToOntologyIDResponse:
+      description: Response with ontology IDs
+      content:
+        "application/ld+json":
+          schema:
+            type: object
+            properties:
+              result:
+                type: object
+                $ref: "#/components/schemas/OntologyIDObject"
