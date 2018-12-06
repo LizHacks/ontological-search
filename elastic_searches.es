@@ -11,14 +11,15 @@ POST /fedex/_search?q=*
 // TODO: add document that doesn't have ontology id annotation
 POST /fedex/_search
 {
-	"query": {
-	    "bool": {
-	      "should": [
-	        {"match": {"disease.rdf.id": "HP:0002511"} },
-	        {"match": {"disease.text": "Alzheimer disease"} }
-	        ]
-	    }
-	}
+  "query": {
+    "bool": {
+      "should": [
+        { "terms": { "disease.rdf.id":[ ] } },
+        { "match": { "disease.text": "Alzheimer disease" }
+        }
+      ]
+    }
+  }
 }
 
 --
@@ -30,9 +31,10 @@ POST /fedex/_search
 	"query": {
 	    "bool": {
 	      "should": [
-	        {"match": {"disease.rdf.id": "HP:0002011"} },
-	        {"match": {"disease.rdf.id": "HP:0002511"} },
-	        {"match": {"disease.rdf.id": "HP:0100006"} },
+			{ "terms": { "disease.rdf.id":[ ] } },
+	        // {"match": {"disease.rdf.id": "HP:0002011"} },
+	        // {"match": {"disease.rdf.id": "HP:0002511"} },
+	        // {"match": {"disease.rdf.id": "HP:0100006"} },
 	        {"match": {"disease.text": "Morphological abnormality of the central nervous system"} }
 	        ]
 	    }
@@ -48,8 +50,17 @@ POST /fedex/_search
 	"query": {
 	    "bool": {
 	      "should": [
-	        {"match": {"disease.rdf.id": "HP:0003118"} },
-	        {"match": {"disease.rdf.id": "HP:0003077"} },
+	        { "terms": { "disease.rdf.id":[
+						"HP:0003118",
+						"HP:0011744",
+						"HP:0001579",
+						"HP:0025436",
+						"HP:0002717",
+						"HP:0011731"
+						] } 
+					},
+	        // {"match": {"disease.rdf.id": "HP:0003118"} },
+	        // {"match": {"disease.rdf.id": "HP:0003077"} },
 	        {"match": {"disease.text": "Cushing Syndrome"} }
 	        ]
 	    }
