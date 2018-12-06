@@ -19,7 +19,7 @@ export default async function handler(
   LET search_term = "${search_term}"
   FOR doc IN terms
     FILTER POSITION(PUSH(doc.synonyms, doc.title), search_term)
-    FOR related_doc IN 0..2
+    FOR related_doc IN 0..1
         ANY (doc._id)
         GRAPH "on"
     RETURN related_doc
